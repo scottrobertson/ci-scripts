@@ -8,4 +8,4 @@ curl -LO https://storage.googleapis.com/kubernetes-release/release/$(curl -s htt
 ./kubectl patch deployment $DEPLOYMENT -n default -p "{\"spec\":{\"template\":{\"metadata\":{\"annotations\":{\"buildkite.build_id\":\"$BUILDKITE_BUILD_ID\"}}}}}"
 
 # Wait on the Deployment
-./kubectl rollout status deployment $DEPLOYMENT -w
+# ./kubectl rollout status deployment $DEPLOYMENT -w
