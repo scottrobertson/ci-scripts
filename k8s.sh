@@ -1,5 +1,9 @@
-# Build the docker image
-docker login --username=$DOCKER_USERNAME --password=$DOCKER_PASSWORD $DOCKER_REPO && docker build --cache-from $DOCKER_IMAGE -t $DOCKER_IMAGE . && docker push $DOCKER_IMAGE
+# Login to Docker
+echo $DOCKER_PASSWORD | docker login --username=$DOCKER_USERNAME --password-stdin $DOCKER_REPO
+
+# Build the image
+docker build --cache-from $DOCKER_IMAGE -t $DOCKER_IMAGE . 
+docker push $DOCKER_IMAGE
 
 # Install kubectl
 curl -LO https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl && chmod +x ./kubectl
