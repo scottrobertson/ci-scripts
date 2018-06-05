@@ -11,4 +11,4 @@ curl -LO https://storage.googleapis.com/kubernetes-release/release/$(curl -s htt
 ./kubectl get namespaces
 
 # Wait on the Deployment
-./kubectl rollout status deployment $DEPLOYMENT -w
+./kubectl rollout status deployment $DEPLOYMENT -w -n default
