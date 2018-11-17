@@ -1,6 +1,6 @@
 # Login to Docker
-export DOCKER_JSON_OUTPUT=$(echo -n "$DOCKER_JSON" | base64 -d)
-echo $DOCKER_JSON_OUTPUT | base64 -d | docker login -u _json_key --password-stdin $DOCKER_REPO
+export DOCKER_JSON_OUTPUT=$(echo -n "$DOCKER_JSON" | base64 -D)
+echo $DOCKER_JSON_OUTPUT | docker login -u _json_key --password-stdin $DOCKER_REPO
 
 # Build the image
 docker build --cache-from $DOCKER_IMAGE -t $DOCKER_IMAGE . 
