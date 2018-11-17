@@ -1,5 +1,5 @@
 # Login to Docker
-echo $DOCKER_JSON | docker login -u _json_key --password-stdin $DOCKER_REPO
+echo $DOCKER_JSON | base64 -D | docker login -u _json_key --password-stdin $DOCKER_REPO
 
 # Build the image
 docker build --cache-from $DOCKER_IMAGE -t $DOCKER_IMAGE . 
