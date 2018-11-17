@@ -1,6 +1,5 @@
 # Login to Docker
-#echo $DOCKER_PASSWORD | docker login --username=$DOCKER_USERNAME --password-stdin $DOCKER_REPO
-echo $DOCKER_TOKEN | docker login -u oauth2accesstoken --password-stdin $DOCKER_REPO
+echo $DOCKER_JSON | docker login -u _json_key --password-stdin $DOCKER_REPO
 
 # Build the image
 docker build --cache-from $DOCKER_IMAGE -t $DOCKER_IMAGE . 
