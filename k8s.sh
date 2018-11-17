@@ -1,5 +1,5 @@
 # Login to Docker
-export DOCKER_JSON_OUTPUT=$(echo -n "$DOCKER_JSON" | base64 -D)
+export DOCKER_JSON_OUTPUT=$(echo -n "$DOCKER_JSON" | base64 -d)
 echo $DOCKER_JSON_OUTPUT
 
 
