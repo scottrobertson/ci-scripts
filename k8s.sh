@@ -1,4 +1,7 @@
-printenv
+if [ $BUILDKITE_BRANCH != "master" ]; then
+  echo 'Not master... skipping'
+  exit 0
+fi
 
 # Login to Docker
 export DOCKER_JSON_OUTPUT=$(echo -n "$DOCKER_JSON" | base64 -d)
