@@ -1,6 +1,8 @@
 if [ $BUILDKITE_BRANCH != "master" ]; then
   echo 'Not master... skipping'
   exit 0
+else
+  echo 'Is master... continue'
 fi
 
 # Login to Docker
