@@ -5,7 +5,7 @@ else
   echo 'Is master... continue'
 fi
 
-echo 'Version 2'
+echo 'Version 3'
 
 # Login to Docker
 export DOCKER_JSON_OUTPUT=$(echo -n "$DOCKER_JSON" | base64 -d)
