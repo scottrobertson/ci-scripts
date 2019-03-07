@@ -6,16 +6,16 @@ Just for me
 
 ```yaml
 env:
-  DOCKER_IMAGE: "eu.gcr.io/personal-stuff-193123/IMAGENAME"
+  DOCKER_IMAGE: "eu.gcr.io/personal-stuff-193123/image"
   DOCKER_REPO: "https://eu.gcr.io"
-  DOCKER_JSON: "here"
+  DOCKER_JSON: "base64jsonhere"
 
 steps:
-  - command: "export DEPLOYMENT=web && curl -v -L -s \"https://goo.gl/xvVHwM?t=$(date +%s)\" | bash"
+  - command: "export DEPLOYMENT=web && curl -L -s https://raw.githubusercontent.com/scottrobertson/ci-scripts/master/k8s.sh?t=$(date +%s) | bash"
     label: ":docker: Build and Deploy Web"
 
   - wait
 
-  - command: "export DEPLOYMENT=sidekiq && curl -v -L -s \"https://goo.gl/xvVHwM?t=$(date +%s)\" | bash"
+  - command: "export DEPLOYMENT=sidekiq && curl -L -s https://raw.githubusercontent.com/scottrobertson/ci-scripts/master/k8s.sh?t=$(date +%s) | bash"
     label: ":docker: Build and Deploy Sidekiq"
 ```
