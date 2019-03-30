@@ -5,7 +5,7 @@ else
   echo 'Is master... continue'
 fi
 
-echo 'Version 4'
+echo 'Version 5'
 
 # Login to Docker
 export DOCKER_JSON_OUTPUT=$(echo -n "$DOCKER_JSON" | base64 -d)
@@ -20,7 +20,10 @@ docker tag "$DOCKER_IMAGE:latest" "$DOCKER_IMAGE:$BUILDKITE_COMMIT" && docker pu
 curl -LO https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl && chmod +x ./kubectl
 
 # Deploy
+echo "Deploying $DEPLOYMENT"
 ./kubectl patch deployment $DEPLOYMENT -n default -p "{\"spec\":{\"template\":{\"metadata\":{\"annotations\":{\"buildkite.build_id\":\"$BUILDKITE_BUILD_ID\"}}}}}"
-
-# Wait on the Deployment
 ./kubectl rollout status deployment -w -n default $DEPLOYMENT
+
+if [ -n "$DEPLOYMENT_2" ]; then
+  echo "Deploying $DEPLOYMENT_2"
+fi
