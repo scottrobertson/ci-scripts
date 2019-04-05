@@ -5,7 +5,7 @@ else
   echo 'Is master... continue'
 fi
 
-echo 'Version 10'
+echo 'Version 11'
 
 # Login to Docker
 export DOCKER_JSON_OUTPUT=$(echo -n "$DOCKER_JSON" | base64 -d)
@@ -23,6 +23,9 @@ curl -LO https://storage.googleapis.com/kubernetes-release/release/$(curl -s htt
 # Deploy the new imahe by changing the annotation on the deployment. This will trigger k8s to redeploy and pull the latest image
 
 echo "kubectl set image deployment/$DEPLOYMENT $DEPLOYMENT=$DOCKER_IMAGE:$BUILDKITE_COMMIT"
+
+./kubectl get deployment
+
 ./kubectl set image "deployment/$DEPLOYMENT" "$DEPLOYMENT"="$DOCKER_IMAGE:$BUILDKITE_COMMIT"
 
 if [ -n "$DEPLOYMENT_2" ]; then
