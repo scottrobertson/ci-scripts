@@ -5,7 +5,7 @@ else
   echo 'Is master... continue'
 fi
 
-echo 'Version 11'
+echo 'Version 12'
 
 # Login to Docker
 export DOCKER_JSON_OUTPUT=$(echo -n "$DOCKER_JSON" | base64 -d)
@@ -24,13 +24,11 @@ curl -LO https://storage.googleapis.com/kubernetes-release/release/$(curl -s htt
 
 echo "kubectl set image deployment/$DEPLOYMENT $DEPLOYMENT=$DOCKER_IMAGE:$BUILDKITE_COMMIT"
 
-./kubectl get deployment
-
-./kubectl set image "deployment/$DEPLOYMENT" "$DEPLOYMENT"="$DOCKER_IMAGE:$BUILDKITE_COMMIT"
+./kubectl set image -n default "deployment/$DEPLOYMENT" "$DEPLOYMENT"="$DOCKER_IMAGE:$BUILDKITE_COMMIT"
 
 if [ -n "$DEPLOYMENT_2" ]; then
   echo "kubectl set image deployment/$DEPLOYMENT_2 $DEPLOYMENT_2=$DOCKER_IMAGE:$BUILDKITE_COMMIT"
-  ./kubectl set image "deployment/$DEPLOYMENT_2" "$DEPLOYMENT_2"="$DOCKER_IMAGE:$BUILDKITE_COMMIT"
+  ./kubectl set image -n default "deployment/$DEPLOYMENT_2" "$DEPLOYMENT_2"="$DOCKER_IMAGE:$BUILDKITE_COMMIT"
 fi
 
 # Now lets wait for those deploys to finish
