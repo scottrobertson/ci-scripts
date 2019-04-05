@@ -24,11 +24,11 @@ curl -LO https://storage.googleapis.com/kubernetes-release/release/$(curl -s htt
 # Deploy the new imahe by changing the annotation on the deployment. This will trigger k8s to redeploy and pull the latest image
 
 echo "Deploying $DEPLOYMENT"
-kubectl set image "deployment/$DEPLOYMENT" "$DOCKER_IMAGE:$BUILDKITE_COMMIT"
+kubectl set image "deployment/$DEPLOYMENT" "$DEPLOYMENT=$DOCKER_IMAGE:$BUILDKITE_COMMIT"
 
 if [ -n "$DEPLOYMENT_2" ]; then
   echo "Deploying $DEPLOYMENT_2"
-  kubectl set image "deployment/$DEPLOYMENT_2" "$DOCKER_IMAGE:$BUILDKITE_COMMIT"
+  kubectl set image "deployment/$DEPLOYMENT_2" "$DEPLOYMENT_2=$DOCKER_IMAGE:$BUILDKITE_COMMIT"
 fi
 
 # Now lets wait for those deploys to finish
