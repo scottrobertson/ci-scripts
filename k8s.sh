@@ -5,16 +5,16 @@ else
   echo 'Is master... continue'
 fi
 
-echo 'Version 13'
+echo 'Version 14'
 
 # Login to Docker
 export DOCKER_JSON_OUTPUT=$(echo -n "$DOCKER_JSON" | base64 -d)
 echo $DOCKER_JSON_OUTPUT | docker login -u _json_key --password-stdin $DOCKER_REPO
 
 # Build the image
-docker build --cache-from $DOCKER_IMAGE -t $DOCKER_IMAGE -t "$DOCKER_IMAGE:$BUILDKITE_COMMIT" . 
-docker push $DOCKER_IMAGE
-docker push "$DOCKER_IMAGE:$BUILDKITE_COMMIT"
+docker build --cache-from $DOCKER_IMAGE -t $DOCKER_IMAGE -t "$DOCKER_IMAGE:$BUILDKITE_COMMIT" . || exit 1
+docker push $DOCKER_IMAGE || exit 1
+docker push "$DOCKER_IMAGE:$BUILDKITE_COMMIT" || exit 1
 
 # Install kubectl
 curl -LO https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl && chmod +x ./kubectl
