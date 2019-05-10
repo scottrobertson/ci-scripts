@@ -5,11 +5,17 @@ else
   echo 'Is master... continue'
 fi
 
-echo 'Version 14'
+echo 'Version 15'
 
 # Login to Docker
-export DOCKER_JSON_OUTPUT=$(echo -n "$DOCKER_JSON" | base64 -d)
-echo $DOCKER_JSON_OUTPUT | docker login -u _json_key --password-stdin $DOCKER_REPO
+if [ -n "$GH_DOCKER_TOKEN" ]; then
+  echo 'Docker: Github'
+  echo $GH_DOCKER_TOKEN | docker login -u scottrobertson --password-stdin $DOCKER_REPO
+else
+  echo 'Docker: Google'
+  export DOCKER_JSON_OUTPUT=$(echo -n "$DOCKER_JSON" | base64 -d)
+  echo $DOCKER_JSON_OUTPUT | docker login -u _json_key --password-stdin $DOCKER_REPO
+fi
 
 # Build the image
 docker build --cache-from $DOCKER_IMAGE -t $DOCKER_IMAGE -t "$DOCKER_IMAGE:$BUILDKITE_COMMIT" . || exit 1
