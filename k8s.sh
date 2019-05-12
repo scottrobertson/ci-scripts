@@ -43,14 +43,14 @@ echo '...done'
 
 # Lets tell k8s about the new image
 echo ''
-echo -e "${YELLOW}Deploy: $DEPLOYMENT"
+echo -e "${YELLOW}Deploy: $DEPLOYMENT${NC}"
 ./kubectl set image -n default "deployment/$DEPLOYMENT" "$DEPLOYMENT"="$DOCKER_IMAGE:$BUILDKITE_COMMIT"
 echo '...done'
 
 # Deploy 2 is useful for when we have web + sidekiq containers
 if [ -n "$DEPLOYMENT_2" ]; then
   echo ''
-  echo -e "${YELLOW}Deploy: $DEPLOYMENT_"
+  echo -e "${YELLOW}Deploy: $DEPLOYMENT_2${NC}"
   ./kubectl set image -n default "deployment/$DEPLOYMENT_2" "$DEPLOYMENT_2"="$DOCKER_IMAGE:$BUILDKITE_COMMIT"
   echo '...done'
 fi
