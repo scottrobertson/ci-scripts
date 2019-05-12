@@ -37,7 +37,7 @@ docker push "$DOCKER_IMAGE:$BUILDKITE_COMMIT"
 
 echo ''
 echo -e "${YELLOW}Installing kubectl${NC}"
-curl -LO https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl && chmod +x ./kubectl
+curl -LOs https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl && chmod +x ./kubectl
 
 # Lets tell k8s about the new image
 echo ''
