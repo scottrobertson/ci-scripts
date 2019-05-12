@@ -8,7 +8,7 @@ fi
 YELLOW='\033[1;33m'
 NC='\033[0m'
 
-echo -e "${YELLOW}Version 18${NC}"
+echo -e "${YELLOW}Version 19${NC}"
 
 # Login to Docker
 if [ -n "$GH_DOCKER_TOKEN" ]; then
