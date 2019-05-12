@@ -5,10 +5,12 @@ else
   echo 'Is master... continue'
 fi
 
+VERSION="1"
+
 YELLOW='\033[1;33m'
 NC='\033[0m'
 
-echo -e "${YELLOW}Version 19${NC}"
+echo -e "${YELLOW}Version ${VERSION}${NC}"
 
 # Login to Docker
 if [ -n "$GH_DOCKER_TOKEN" ]; then
@@ -41,14 +43,14 @@ echo '...done'
 
 # Lets tell k8s about the new image
 echo ''
-echo -e "${YELLOW}kubectl set image deployment/$DEPLOYMENT $DEPLOYMENT=$DOCKER_IMAGE:$BUILDKITE_COMMIT${NC}"
+echo -e "${YELLOW}Deploy: $DEPLOYMENT"
 ./kubectl set image -n default "deployment/$DEPLOYMENT" "$DEPLOYMENT"="$DOCKER_IMAGE:$BUILDKITE_COMMIT"
 echo '...done'
 
 # Deploy 2 is useful for when we have web + sidekiq containers
 if [ -n "$DEPLOYMENT_2" ]; then
   echo ''
-  echo -e "${YELLOW}kubectl set image deployment/$DEPLOYMENT_2 $DEPLOYMENT_2=$DOCKER_IMAGE:$BUILDKITE_COMMIT${NC}"
+  echo -e "${YELLOW}Deploy: $DEPLOYMENT_"
   ./kubectl set image -n default "deployment/$DEPLOYMENT_2" "$DEPLOYMENT_2"="$DOCKER_IMAGE:$BUILDKITE_COMMIT"
   echo '...done'
 fi
