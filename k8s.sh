@@ -5,7 +5,7 @@ else
   echo 'Is master... continue'
 fi
 
-echo 'Version 17'
+echo 'Version 18'
 
 # Login to Docker
 if [ -n "$GH_DOCKER_TOKEN" ]; then
@@ -18,12 +18,15 @@ else
 fi
 
 # Build and push the Docker image
+echo ''
 echo "Building: $DOCKER_IMAGE"
 docker build --cache-from "$DOCKER_IMAGE:latest" -t "$DOCKER_IMAGE:latest" -t "$DOCKER_IMAGE:$BUILDKITE_COMMIT" .
 
+echo ''
 echo "Pushing: $DOCKER_IMAGE:latest"
 docker push "$DOCKER_IMAGE:latest"
 
+echo ''
 echo "Pushing: $DOCKER_IMAGE:$BUILDKITE_COMMIT"
 docker push "$DOCKER_IMAGE:$BUILDKITE_COMMIT"
 
