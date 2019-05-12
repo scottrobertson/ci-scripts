@@ -31,23 +31,30 @@ echo "Pushing: $DOCKER_IMAGE:$BUILDKITE_COMMIT"
 docker push "$DOCKER_IMAGE:$BUILDKITE_COMMIT"
 
 # Install kubectl
+
+echo ''
+echo "Installing kubectl"
 curl -LO https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl && chmod +x ./kubectl
 
 # Lets tell k8s about the new image
+echo ''
 echo "kubectl set image deployment/$DEPLOYMENT $DEPLOYMENT=$DOCKER_IMAGE:$BUILDKITE_COMMIT"
 ./kubectl set image -n default "deployment/$DEPLOYMENT" "$DEPLOYMENT"="$DOCKER_IMAGE:$BUILDKITE_COMMIT"
 
 # Deploy 2 is useful for when we have web + sidekiq containers
 if [ -n "$DEPLOYMENT_2" ]; then
+  echo ''
   echo "kubectl set image deployment/$DEPLOYMENT_2 $DEPLOYMENT_2=$DOCKER_IMAGE:$BUILDKITE_COMMIT"
   ./kubectl set image -n default "deployment/$DEPLOYMENT_2" "$DEPLOYMENT_2"="$DOCKER_IMAGE:$BUILDKITE_COMMIT"
 fi
 
 # Now lets wait for those deploys to finish
+echo ''
 echo "Waiting for deploy: $DEPLOYMENT"
 ./kubectl rollout status deployment -w -n default $DEPLOYMENT
 
 if [ -n "$DEPLOYMENT_2" ]; then
+  echo ''
   echo "Waiting for deploy: $DEPLOYMENT_2"
   ./kubectl rollout status deployment -w -n default $DEPLOYMENT_2
 fi
