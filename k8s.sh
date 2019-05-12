@@ -5,7 +5,7 @@ else
   echo 'Is master... continue'
 fi
 
-echo 'Version 16'
+echo 'Version 17'
 
 # Login to Docker
 if [ -n "$GH_DOCKER_TOKEN" ]; then
@@ -18,9 +18,14 @@ else
 fi
 
 # Build and push the Docker image
-echo "Building: $DOCKER_IMAGE:$BUILDKITE_COMMIT"
-echo "Building: $DOCKER_IMAGE:latest"
-docker build --cache-from $DOCKER_IMAGE -t $DOCKER_IMAGE -t "$DOCKER_IMAGE:$BUILDKITE_COMMIT" . && docker push $DOCKER_IMAGE && docker push "$DOCKER_IMAGE:$BUILDKITE_COMMIT"
+echo "Building: $DOCKER_IMAGE"
+docker build --cache-from "$DOCKER_IMAGE:latest" -t "$DOCKER_IMAGE:latest" -t "$DOCKER_IMAGE:$BUILDKITE_COMMIT" .
+
+echo "Pushing: $DOCKER_IMAGE:latest"
+docker push "$DOCKER_IMAGE:latest"
+
+echo "Pushing: $DOCKER_IMAGE:$BUILDKITE_COMMIT"
+docker push "$DOCKER_IMAGE:$BUILDKITE_COMMIT"
 
 # Install kubectl
 curl -LO https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl && chmod +x ./kubectl
