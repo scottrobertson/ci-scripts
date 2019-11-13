@@ -16,7 +16,7 @@ echo -e "${YELLOW}Version ${VERSION}${NC}"
 if [ -n "$GH_DOCKER_TOKEN" ]; then
   echo -e "${YELLOW}Using Docker Login: Github${NC}"
   echo $GH_DOCKER_TOKEN | docker login -u scottrobertson --password-stdin $DOCKER_REPO
-else if [ -n "$DOCKER_USERNAME" ]; then
+elif [ -n "$DOCKER_USERNAME" ]; then
   echo -e "${YELLOW}Using Docker Login: Github${NC}"
   echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin $DOCKER_REPO
 else
