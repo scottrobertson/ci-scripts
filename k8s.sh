@@ -16,13 +16,17 @@ echo -e "${YELLOW}Version ${VERSION}${NC}"
 if [ -n "$GH_DOCKER_TOKEN" ]; then
   echo -e "${YELLOW}Using Docker Login: Github${NC}"
   echo $GH_DOCKER_TOKEN | docker login -u scottrobertson --password-stdin $DOCKER_REPO
-elif [ -n "$DOCKER_USERNAME" ]; then
-  echo -e "${YELLOW}Using Docker Login: Github${NC}"
-  echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin $DOCKER_REPO
-else
+fi
+
+if [ -n "$DOCKER_JSON" ]; then
   echo -e "${YELLOW}Using Docker Login: Google${NC}"
   export DOCKER_JSON_OUTPUT=$(echo -n "$DOCKER_JSON" | base64 -d)
   echo $DOCKER_JSON_OUTPUT | docker login -u _json_key --password-stdin $DOCKER_REPO
+fi
+
+if [ -n "$DOCKER_USERNAME" ]; then
+  echo -e "${YELLOW}Using Docker Login: Normal${NC}"
+  echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin $DOCKER_REPO
 fi
 
 # Build and push the Docker image
