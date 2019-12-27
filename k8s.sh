@@ -36,11 +36,11 @@ docker build --cache-from "$DOCKER_IMAGE:latest" -t "$DOCKER_IMAGE:latest" -t "$
 
 echo ''
 echo -e "${YELLOW}Pushing: $DOCKER_IMAGE:latest${NC}"
-docker push "$DOCKER_IMAGE:latest" --max-concurrent-uploads=1 || exit 1
+docker push "$DOCKER_IMAGE:latest" || exit 1
 
 echo ''
 echo -e "${YELLOW}Pushing: $DOCKER_IMAGE:$BUILDKITE_COMMIT${NC}"
-docker push "$DOCKER_IMAGE:$BUILDKITE_COMMIT" --max-concurrent-uploads=1 || exit 1
+docker push "$DOCKER_IMAGE:$BUILDKITE_COMMIT" || exit 1
 
 # Install kubectl
 echo ''
