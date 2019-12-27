@@ -1,11 +1,11 @@
-if [ $BUILDKITE_BRANCH != "master" ]; then
+if [ "$BUILDKITE_BRANCH" = "master" ]; then
+  echo 'Is master... continue'
+else
   echo 'Not master... skipping'
   exit 0
-else
-  echo 'Is master... continue'
 fi
 
-VERSION="2"
+VERSION="3"
 
 YELLOW='\033[1;33m'
 NC='\033[0m'
