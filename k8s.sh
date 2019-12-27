@@ -48,14 +48,14 @@ echo -e "${YELLOW}Installing kubectl${NC}"
 curl -LOs https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl && chmod +x ./kubectl
 echo '...done'
 
-DEPLOYMENTS_ARRAY=',' read -r -a array <<< "$DEPLOYMENTS"
+DEPLOYMENTS_ARRAY=$(echo $DEPLOYMENTS | tr "," "\n")
 
 echo ''
 echo "Running Deployments: $DEPLOYMENTS"
 echo ''
 
 # Lets tell k8s about the new image
-for deploy in "${DEPLOYMENTS_ARRAY[@]}"
+for deploy in $DEPLOYMENTS_ARRAY
 do
   echo ''
   echo -e "${YELLOW}Deploy: $deploy${NC}"
@@ -64,7 +64,7 @@ do
 done
 
 # Now lets wait for those deploys to finish
-for deploy in "${DEPLOYMENTS_ARRAY[@]}"
+for deploy in $DEPLOYMENTS_ARRAY
 do
   echo ''
   echo -e "${YELLOW}Waiting for deploy: $deploy${NC}"
