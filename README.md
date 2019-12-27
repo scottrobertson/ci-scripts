@@ -6,16 +6,12 @@ Just for me
 
 ```yaml
 env:
-  DOCKER_IMAGE: "eu.gcr.io/personal-stuff-193123/image"
-  DOCKER_REPO: "https://eu.gcr.io"
-  DOCKER_JSON: "base64jsonhere"
+  DOCKER_IMAGE: "registry.digitalocean.com/scott/image"
+  DOCKER_REPO: "https://registry.digitalocean.com"
+  DOCKER_USERNAME: "DOCKER_USERNAME"
+  DOCKER_PASSWORD: "DOCKER_PASSWORD"
+  DEPLOYMENTS: "image-web,image-sidekiq"
 
 steps:
-  - command: "export DEPLOYMENT=web && curl -L -s https://raw.githubusercontent.com/scottrobertson/ci-scripts/master/k8s.sh?t=$(date +%s) | bash"
-    label: ":docker: Build and Deploy Web"
-
-  - wait
-
-  - command: "export DEPLOYMENT=sidekiq && curl -L -s https://raw.githubusercontent.com/scottrobertson/ci-scripts/master/k8s.sh?t=$(date +%s) | bash"
-    label: ":docker: Build and Deploy Sidekiq"
+  - command: "curl -L -s https://goo.gl/xvVHwM | bash"
 ```
