@@ -48,27 +48,29 @@ echo -e "${YELLOW}Installing kubectl${NC}"
 curl -LOs https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl && chmod +x ./kubectl
 echo '...done'
 
-# Lets tell k8s about the new image
-echo ''
-echo -e "${YELLOW}Deploy: $DEPLOYMENT${NC}"
-./kubectl set image -n default "deployment/$DEPLOYMENT" "$DEPLOYMENT"="$DOCKER_IMAGE:$BUILDKITE_COMMIT"
-echo '...done'
+DEPLOYMENTS_ARRAY=',' read -r -a array <<< "$DEPLOYMENTS"
 
-# Deploy 2 is useful for when we have web + sidekiq containers
-if [ -n "$DEPLOYMENT_2" ]; then
+echo ''
+echo "Running Deployments: $DEPLOYMENTS"
+echo ''
+
+# Lets tell k8s about the new image
+for deploy in "${DEPLOYMENTS_ARRAY[@]}"
+do
   echo ''
-  echo -e "${YELLOW}Deploy: $DEPLOYMENT_2${NC}"
-  ./kubectl set image -n default "deployment/$DEPLOYMENT_2" "$DEPLOYMENT_2"="$DOCKER_IMAGE:$BUILDKITE_COMMIT"
+  echo -e "${YELLOW}Deploy: $deploy${NC}"
+  ./kubectl set image -n default "deployment/$deploy" "$deploy"="$DOCKER_IMAGE:$BUILDKITE_COMMIT"
   echo '...done'
-fi
+done
 
 # Now lets wait for those deploys to finish
-echo ''
-echo -e "${YELLOW}Waiting for deploy: $DEPLOYMENT${NC}"
-./kubectl rollout status deployment -w -n default $DEPLOYMENT
-
-if [ -n "$DEPLOYMENT_2" ]; then
+for deploy in "${DEPLOYMENTS_ARRAY[@]}"
+do
   echo ''
-  echo -e "${YELLOW}Waiting for deploy: $DEPLOYMENT_2${NC}"
-  ./kubectl rollout status deployment -w -n default $DEPLOYMENT_2
-fi
+  echo -e "${YELLOW}Waiting for deploy: $deploy${NC}"
+  ./kubectl rollout status deployment -w -n default $deploy
+done
+
+
+echo ''
+echo 'all done'
