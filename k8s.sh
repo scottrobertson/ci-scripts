@@ -59,7 +59,7 @@ for deploy in $DEPLOYMENTS_ARRAY
 do
   echo ''
   echo -e "${YELLOW}Deploy: $deploy${NC}"
-  ./kubectl set image -n default "deployment/$deploy" "*"="$DOCKER_IMAGE:$BUILDKITE_COMMIT"
+  ./kubectl set image -n default "deployment/$deploy" "*"="$DOCKER_IMAGE:$BUILDKITE_COMMIT" || exit 1
   echo '...done'
 done
 
@@ -68,7 +68,7 @@ for deploy in $DEPLOYMENTS_ARRAY
 do
   echo ''
   echo -e "${YELLOW}Waiting for deploy: $deploy${NC}"
-  ./kubectl rollout status deployment -w -n default $deploy
+  ./kubectl rollout status deployment -w -n default $deploy || exit 1
 done
 
 
