@@ -5,7 +5,7 @@ else
   exit 0
 fi
 
-VERSION="5"
+VERSION="6"
 
 YELLOW='\033[1;33m'
 NC='\033[0m'
