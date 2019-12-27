@@ -59,7 +59,7 @@ for deploy in $DEPLOYMENTS_ARRAY
 do
   echo ''
   echo -e "${YELLOW}Deploy: $deploy${NC}"
-  ./kubectl set image -n default "deployment/$deploy" "$deploy"="$DOCKER_IMAGE:$BUILDKITE_COMMIT"
+  ./kubectl set image -n default "deployment/$deploy" "*"="$DOCKER_IMAGE:$BUILDKITE_COMMIT"
   echo '...done'
 done
 
